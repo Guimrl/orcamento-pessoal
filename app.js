@@ -55,9 +55,20 @@ function cadastrarDespesa() {
     let despesa = new Despesa(ano.value, mes.value, dia.value, tipo.value, descricao.value, valor.value)
     
     if(despesa.validarDados()) {
-        bd.gravar(despesa)
-        $('#sucessoGravacao').modal('show')
+        // bd.gravar(despesa)
+        
+            $('#modalTitulo').html('Registro inserido com sucesso')
+            $('#modalTituloDiv').addClass('modal-header text-success')
+            $('#modalConteudo').html('<p>Dispesa foi cadastrada</p>')
+            $('modalBtn').html('Voltar')
+            $('modalBtn').addClass('btn btn-success')
+        
+        // document.getElementById('modalConteudo').innerHTML = '<p>Existem campos obrigatórios que não foram preenchidos</p>'
+        // document.getElementById('modalBtn').innerHTML = 'Voltar'
+        // document.getElementById('modalBtn').className = 'btn btn-success'
+        $('#modalRegistrarDespesa').modal('show')
     } else {
-        $('#erroGravacao').modal('show')
+        // document.getElementById('modalTitulo').innerHTML = 'Erro na inserção do registro'
+        $('#modalRegistrarDespesa').modal('show')
     }
 }
