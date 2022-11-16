@@ -57,18 +57,20 @@ function cadastrarDespesa() {
     if(despesa.validarDados()) {
         // bd.gravar(despesa)
         
-            $('#modalTitulo').html('Registro inserido com sucesso')
-            $('#modalTituloDiv').addClass('modal-header text-success')
-            $('#modalConteudo').html('<p>Dispesa foi cadastrada</p>')
-            $('modalBtn').html('Voltar')
-            $('modalBtn').addClass('btn btn-success')
-        
-        // document.getElementById('modalConteudo').innerHTML = '<p>Existem campos obrigatórios que não foram preenchidos</p>'
-        // document.getElementById('modalBtn').innerHTML = 'Voltar'
-        // document.getElementById('modalBtn').className = 'btn btn-success'
+        $('#modalTitulo').html('Registro inserido com sucesso')
+        $('#modalTituloDiv').addClass('modal-header text-success')
+        $('#modalConteudo').html('<p>Dispesa foi cadastrada</p>')
+        $('#modalBtn').html('Voltar')
+        $('#modalBtn').addClass('btn btn-success')
+
         $('#modalRegistrarDespesa').modal('show')
     } else {
-        // document.getElementById('modalTitulo').innerHTML = 'Erro na inserção do registro'
+        $('#modalTitulo').html('Erro na insclusão do registro')
+        $('#modalTituloDiv').addClass('modal-header text-danger')
+        $('#modalConteudo').html('<p>Erro na gravação, verifique os campos</p>')
+        $('#modalBtn').html('Voltar e corrigir')
+        $('#modalBtn').addClass('btn btn-danger')
+        
         $('#modalRegistrarDespesa').modal('show')
     }
 }
