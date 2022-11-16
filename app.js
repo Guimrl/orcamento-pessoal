@@ -57,6 +57,7 @@ class Bd {
                 continue
             }
 
+            despesa.id = i
             despesas.push(despesa)
         }
 
@@ -111,7 +112,11 @@ class Bd {
 
 
         return despesasFiltradas
-    } 
+    }
+
+    remover(id) {
+        localStorage.removeItem(id)
+    }
 }
 
 let bd = new Bd()
@@ -128,7 +133,7 @@ function cadastrarDespesa() {
     let despesa = new Despesa(ano.value, mes.value, dia.value, tipo.value, descricao.value, valor.value)
     
     if(despesa.validarDados()) {
-        // bd.gravar(despesa)
+        bd.gravar(despesa)
         
         $('#modalTitulo').html('Registro inserido com sucesso')
         $('#modalTituloDiv').addClass('modal-header text-success')
@@ -196,6 +201,23 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
         linha.insertCell(1).innerHTML = d.tipo
         linha.insertCell(2).innerHTML = d.descricao
         linha.insertCell(3).innerHTML = d.valor
+
+        //criar o botao de exclusao
+        let btn = document.createElement('button')
+        btn.className = 'btn btn-danger'
+        btn.innerHTML = '<i class="fas fa-trash"></i>'
+        btn.id = `id_despesa_${d.id}` 
+        btn.onclick = function() {
+            //remove a despesa
+            let id = this.id.replace('id_despesa_', '')
+            
+            bd.remover(id)
+
+            window.location.reload()
+        }
+        linha.insertCell(4).append(btn)
+
+        console.log(d)
     })
 }
 
@@ -209,6 +231,7 @@ function pesquisarDespesa() {
     let valor = document.getElementById('valor').value
 
     let despesa = new Despesa(ano, mes, dia, tipo, descricao, valor)
+
     let despesas = bd.pesquisar(despesa)
 
     carregaListaDespesas(despesas, true)
