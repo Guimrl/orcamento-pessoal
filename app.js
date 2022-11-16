@@ -88,6 +88,15 @@ function cadastrarDespesa() {
 
         $('#modalRegistrarDespesa').modal('show')
 
+        //limpando formulário após inclusão de dados
+        ano.value = ''
+        mes.value = ''
+        dia.value = ''
+        tipo.value = ''
+        descricao.value = ''
+        valor.value = ''
+
+
     } else {
         $('#modalTitulo').html('Erro na insclusão do registro')
         $('#modalTituloDiv').addClass('modal-header text-danger')
