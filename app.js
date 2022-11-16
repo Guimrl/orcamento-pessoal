@@ -64,7 +64,53 @@ class Bd {
     }
 
     pesquisar(despesa) {
+
+        let despesasFiltradas = Array()
+        
+        despesasFiltradas = this.recuperarTodosRegistros()
+
+        
         console.log(despesa)
+        console.log(despesasFiltradas)
+
+        //ano
+        if(despesa.ano != ''){
+            console.log('filtro de ano ')
+            despesasFiltradas = despesasFiltradas.filter(d => d.ano == despesa.ano)
+        }
+
+        //mes
+        if(despesa.mes != ''){
+            console.log('filtro de mes ')
+            despesasFiltradas = despesasFiltradas.filter(d => d.mes == despesa.mes)
+        }
+
+        //dia
+        if(despesa.dia != ''){
+            console.log('filtro de dia ')
+            despesasFiltradas = despesasFiltradas.filter(d => d.dia == despesa.dia)
+        }
+
+        //tipo
+        if(despesa.tipo != ''){
+            console.log('filtro de tipo ')
+            despesasFiltradas = despesasFiltradas.filter(d => d.tipo == despesa.tipo)
+        }
+
+        //descrição
+        if(despesa.descricao != ''){
+            console.log('filtro de descricao ')
+            despesasFiltradas = despesasFiltradas.filter(d => d.descricao == despesa.descricao)
+        }
+
+        //valor
+        if(despesa.valor != ''){
+            console.log('filtro de valor ')
+            despesasFiltradas = despesasFiltradas.filter(d => d.valor == despesa.valor)
+        }
+
+
+        return despesasFiltradas
     } 
 }
 
@@ -113,21 +159,15 @@ function cadastrarDespesa() {
     }
 }
 
-function carregaListaDespesas() {
+//recupera os registros, percorre cada registro e cria as linhas e colunas da tabela
+function carregaListaDespesas(despesas = Array(), filtro = false) {
 
-    let despesas = Array()
-    despesas = bd.recuperarTodosRegistros()
-
+    if(despesas.length == 0 && filtro == false) {
+        despesas = bd.recuperarTodosRegistros()
+    }
     //selecionando o elemento tbody da tabela
     let listaDespesas = document.getElementById('listaDespesas')
-
-
-//     <tr>
-//     <td>15/04/2022</td>
-//     <td>Alimentaçao</td>
-//     <td>compras do mes</td>
-//     <td>17.09</td>
-//   </tr>
+    listaDespesas.innerHTML = ''
 
     //percorrer o array despesas, listando cada despesa de forma dinamica
     despesas.forEach(function(d) {
@@ -139,7 +179,7 @@ function carregaListaDespesas() {
         //criando td
         linha.insertCell(0).innerHTML = `${d.dia}/${d.mes}/${d.ano}`
         
-        //ajustar o tipo
+        //sobrepor os ids dos tipos por strings
         switch(parseInt(d.tipo)) {
             case 1: d.tipo = 'Alimentação'
                 break
@@ -159,6 +199,7 @@ function carregaListaDespesas() {
     })
 }
 
+//recebe o retorno de pesquisa() e inserir os dados na view
 function pesquisarDespesa() {
     let ano = document.getElementById('ano').value
     let mes = document.getElementById('mes').value
@@ -168,6 +209,7 @@ function pesquisarDespesa() {
     let valor = document.getElementById('valor').value
 
     let despesa = new Despesa(ano, mes, dia, tipo, descricao, valor)
-    
-    bd.pesquisar(despesa)
+    let despesas = bd.pesquisar(despesa)
+
+    carregaListaDespesas(despesas, true)
 }
